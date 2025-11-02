@@ -1,13 +1,33 @@
+import AccountPage from "@pages/Account.page";
+import CartPage from "@pages/Cart.page";
+import CheckoutPage from "@pages/Checkout.page";
+import HomePage from "@pages/Home.page"; // if default export
+import OrderSuccessPage from "@pages/OrderSuccess.page";
+import ProductDetailPage from "@pages/ProductDetail.page";
+import ShopPage from "@pages/Shop.page";
+import SignInPage from "@pages/SignIn.page";
+import SignUpPage from "@pages/SignUp.page";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import "./App.css";
+import { CartProvider } from "./store/cart";
+
+const router = createBrowserRouter([
+  { path: "/", element: <HomePage /> },
+  { path: "/shop", element: <ShopPage /> },
+  { path: "/product/:slug", element: <ProductDetailPage /> },
+  { path: "/cart", element: <CartPage /> },
+  { path: "/checkout", element: <CheckoutPage /> },
+  { path: "/order-success", element: <OrderSuccessPage /> },
+  { path: "/account", element: <AccountPage /> },
+  { path: "/signin", element: <SignInPage /> },
+  { path: "/signup", element: <SignUpPage /> },
+]);
 
 function App() {
   return (
-    <>
-      <p className="font-sans border-2">The quick brown fox ...</p>
-      <p className="font-serif text-2xl">The quick brown fox ...</p>
-      <p className="font-mono text-6xl">The quick brown fox ...</p>
-      <p className="italic text-amber-300">The quick brown fox ...</p>
-    </>
+    <CartProvider>
+      <RouterProvider router={router} />{" "}
+    </CartProvider>
   );
 }
 

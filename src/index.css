@@ -1,6 +1,6 @@
 @import "tailwindcss";
 
-@layer components {
+/* @layer components {
   .card {
     @apply rounded-2xl bg-white p-6;
   }
@@ -12,4 +12,4 @@
   .btn-primary {
     @apply btn bg-brand-600 text-white hover:bg-brand-700;
   }
-}
+} */

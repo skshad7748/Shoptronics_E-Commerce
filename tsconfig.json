@@ -21,6 +21,7 @@
     "strict": true,
     "baseUrl": ".",
     "paths": {
+      "@store/*": ["store/*"],
       "@atoms/*": ["src/design-system/atoms/*"],
       "@molecules/*": ["src/design-system/molecules/*"],
       "@organisms/*": ["src/design-system/organisms/*"],

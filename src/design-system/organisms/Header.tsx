@@ -1,8 +1,11 @@
 import { IconCart, IconHeart, IconUser } from "@atoms/Icon";
 import { IconButton } from "@atoms/IconButton";
 import { DepartmentsDropdown, DeptItem } from "@molecules/DepartmentsDropdown";
+import { MiniCart } from "@molecules/MiniCart";
 import { SearchBar } from "@molecules/SearchBar";
-import LogoImg from "../../../public/images/logo/Shoptronics.png";
+import React from "react";
+import { Link } from "react-router-dom";
+import { useCart } from "../../store/cart";
 
 export interface HeaderProps {
   onSearch?: (q: string) => void;
@@ -11,17 +14,15 @@ export interface HeaderProps {
 // ✅ renamed component to BrandLogo (to avoid collision)
 function BrandLogo() {
   return (
-    <a href="/" className="flex items-center gap-1 text-xl font-semibold">
+    <Link to="/" className="flex items-center gap-1 text-xl font-semibold">
       <img
-        alt="Shoptronics logo"
-        src={LogoImg}
-        className="h-6 w-auto object-contain select-none"
-        draggable={false}
+        src="/images/logo/Shoptronics.png"
+        alt="Shoptronics"
+        className="h-6 w-auto object-contain"
       />
-    </a>
+    </Link>
   );
 }
-
 const DEPT_ITEMS: DeptItem[] = [
   { id: "mobile", label: "Mobile", imageSrc: "/images/departments/mobile.png" },
   {
@@ -52,6 +53,15 @@ const DEPT_ITEMS: DeptItem[] = [
 ];
 
 export function Header({ onSearch }: HeaderProps) {
+  const { count } = useCart();
+  const [openCart, setOpenCart] = React.useState(false);
+
+  React.useEffect(() => {
+    const onEsc = (e: KeyboardEvent) =>
+      e.key === "Escape" && setOpenCart(false);
+    document.addEventListener("keydown", onEsc);
+    return () => document.removeEventListener("keydown", onEsc);
+  }, []);
   return (
     <header className="sticky top-0 z-10 w-full border-b border-gray-200 bg-white/80 backdrop-blur">
       <div className="mx-auto max-w-6xl px-6">
@@ -68,9 +78,23 @@ export function Header({ onSearch }: HeaderProps) {
             <IconButton aria-label="Wishlist">
               <IconHeart size={20} />
             </IconButton>
-            <IconButton aria-label="Cart" badge={1}>
-              <IconCart size={20} />
-            </IconButton>
+            <div className="relative">
+              <IconButton
+                aria-label="Cart"
+                badge={1}
+                onClick={() => setOpenCart((v) => !v)}
+                className="relative rounded-lg p-2 hover:bg-gray-100"
+              >
+                <IconCart size={20} />
+
+                {count > 0 && (
+                  <span className="absolute -right-1 -top-1 inline-flex h-5 min-w-5 items-center justify-center rounded-full bg-brand-600 px-1 text-xs text-white">
+                    {count}
+                  </span>
+                )}
+              </IconButton>
+              <MiniCart open={openCart} />
+            </div>
           </div>
         </div>
 
@@ -79,29 +103,29 @@ export function Header({ onSearch }: HeaderProps) {
           <DepartmentsDropdown items={DEPT_ITEMS} />
           <ul className="hidden items-center gap-6 md:flex">
             <li>
-              <a className="hover:text-brand-700" href="#">
+              <Link className="hover:text-brand-700" to="/">
                 Home
-              </a>
+              </Link>
             </li>
             <li>
-              <a className="hover:text-brand-700" href="#">
+              <Link className="hover:text-brand-700" to="/shop">
                 Shop
-              </a>
+              </Link>
             </li>
             <li>
-              <a className="hover:text-brand-700" href="#">
+              <Link className="hover:text-brand-700" to="#">
                 About
-              </a>
+              </Link>
             </li>
             <li>
-              <a className="hover:text-brand-700" href="#">
+              <Link className="hover:text-brand-700" to="/signin">
                 Account
-              </a>
+              </Link>
             </li>
             <li>
-              <a className="hover:text-brand-700" href="#">
+              <Link className="hover:text-brand-700" to="#">
                 Contact
-              </a>
+              </Link>
             </li>
           </ul>
         </nav>

@@ -7,7 +7,7 @@ import { TrendingProductsSection } from "@organisms/TrendingProductsSection";
 import { HomeTemplate } from "@templates/Home.template";
 import React from "react";
 
-export function HomePage() {
+export default function HomePage() {
   const [searchTerm, setSearchTerm] = React.useState<string>("");
 
   return (

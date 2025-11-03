@@ -12,7 +12,7 @@ import "./App.css";
 import { CartProvider } from "./store/cart";
 
 const router = createBrowserRouter([
-  { path: "/Shoptronics_E-Commerce", element: <HomePage /> },
+  { path: "/", element: <HomePage /> },
   { path: "/shop", element: <ShopPage /> },
   { path: "/product/:slug", element: <ProductDetailPage /> },
   { path: "/cart", element: <CartPage /> },

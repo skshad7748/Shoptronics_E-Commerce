@@ -11,27 +11,27 @@ const DEFAULT_ITEMS: CategoryItem[] = [
   {
     id: "mobile",
     label: "Mobile",
-    iconSrc: "../../../public/categories/mobile.png",
+    iconSrc: "/public/images/categories/mobile.png",
   },
   {
     id: "computer",
     label: "Computer",
-    iconSrc: "../../../public/categories/computer.png",
+    iconSrc: "/public/images/categories/computer.png",
   },
   {
     id: "headphone",
     label: "Head Phone",
-    iconSrc: "../../../public/categories/headphone.png",
+    iconSrc: "/public/images/categories/headphone.png",
   },
   {
     id: "speaker",
     label: "Speaker",
-    iconSrc: "../../../public/categories/speaker.png",
+    iconSrc: "/public/images/categories/speaker.png",
   },
   {
     id: "camera",
     label: "Camera",
-    iconSrc: "../../../public/categories/camera.png",
+    iconSrc: "/public/images/categories/camera.png",
   },
 ];
 

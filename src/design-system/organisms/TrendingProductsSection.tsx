@@ -1,19 +1,13 @@
-import { PRODUCTS } from "@data/products";
+import { PRODUCTS, type ProductData } from "@data/products";
 import { ProductCard } from "@molecules/ProductCard";
 import React from "react";
 
-type Product = {
-  id: string;
-  image: string;
-  title: string;
-  price: number;
-  oldPrice?: number;
-  rating?: number;
-  reviews?: number;
-  slug?: string;
-};
+type SectionProduct = Pick<
+  ProductData,
+  "id" | "image" | "title" | "price" | "oldPrice" | "rating" | "reviews" | "slug" | "category"
+>;
 
-const DEFAULT_PRODUCTS: Product[] = PRODUCTS.slice(0, 5).map((product) => ({
+const DEFAULT_PRODUCTS: SectionProduct[] = PRODUCTS.slice(0, 5).map((product) => ({
   id: product.id,
   image: product.image,
   title: product.title,
@@ -22,6 +16,7 @@ const DEFAULT_PRODUCTS: Product[] = PRODUCTS.slice(0, 5).map((product) => ({
   rating: product.rating,
   reviews: product.reviews,
   slug: product.slug,
+  category: product.category,
 }));
 
 const GRID_CLASSES =
@@ -30,7 +25,7 @@ const GRID_CLASSES =
 export interface TrendingProductsSectionProps {
   title?: string;
   subtitle?: string;
-  products?: Product[];
+  products?: SectionProduct[];
 }
 
 export function TrendingProductsSection({

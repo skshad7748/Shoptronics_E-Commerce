@@ -1,20 +1,14 @@
-import { PRODUCTS } from "@data/products";
+import { PRODUCTS, type ProductData } from "@data/products";
 import { ProductTile } from "@molecules/ProductTile";
 import React from "react";
 import { useCart } from "../../store/cart";
 
-type Product = {
-  id: string;
-  image: string;
-  title: string;
-  price: number;
-  oldPrice?: number;
-  rating?: number;
-  reviews?: number;
-  slug?: string;
-};
+type SectionProduct = Pick<
+  ProductData,
+  "id" | "image" | "title" | "price" | "oldPrice" | "rating" | "reviews" | "slug" | "category"
+>;
 
-const DEFAULT_PRODUCTS: Product[] = PRODUCTS.slice(0, 3).map((product) => ({
+const DEFAULT_PRODUCTS: SectionProduct[] = PRODUCTS.slice(0, 3).map((product) => ({
   id: product.id,
   image: product.image,
   title: product.title,
@@ -23,12 +17,13 @@ const DEFAULT_PRODUCTS: Product[] = PRODUCTS.slice(0, 3).map((product) => ({
   rating: product.rating,
   reviews: product.reviews,
   slug: product.slug,
+  category: product.category,
 }));
 
 export interface BestSellingSectionProps {
   title?: string;
   subtitle?: string;
-  products?: Product[];
+  products?: SectionProduct[];
 }
 
 export function BestSellingSection({
@@ -39,7 +34,7 @@ export function BestSellingSection({
   const headingId = React.useId();
   const { addItem } = useCart();
 
-  const handleAdd = (product: Product) =>
+  const handleAdd = (product: SectionProduct) =>
     addItem(
       { id: product.id, title: product.title, price: product.price, image: product.image },
       1
@@ -61,6 +56,7 @@ export function BestSellingSection({
           <ProductTile
             key={p.id}
             image={p.image}
+            category={p.category}
             title={p.title}
             price={p.price}
             oldPrice={p.oldPrice}

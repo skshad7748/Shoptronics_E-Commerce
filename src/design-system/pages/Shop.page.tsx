@@ -16,15 +16,27 @@ type Product = {
   reviews?: number;
 };
 
-const PRODUCTS: Product[] = Array.from({ length: 9 }).map((_, i) => ({
-  id: `s${i + 1}`,
-  image: "/images/products/headphones-sm.png",
-  title: "Smart Digital Watch",
-  price: 29.99,
-  oldPrice: 39.99,
-  rating: 4,
-  reviews: 96,
-}));
+const PRODUCTS: Product[] = Array.from({ length: 9 })
+  .map((_, i) => ({
+    id: `s${i + 1}`,
+    image: "/images/products/headphones-sm.png",
+    title: "Smart Digital Watch",
+    price: 29.99,
+    oldPrice: 39.99,
+    rating: 4,
+    reviews: 96,
+  }))
+  .concat(
+    Array.from({ length: 9 }).map((_, i) => ({
+      id: `s${i + 10}`,
+      image: "/images/products/headphones-sm.png",
+      title: "Smart Digital Watch",
+      price: 29.99,
+      oldPrice: 39.99,
+      rating: 4,
+      reviews: 96,
+    }))
+  );
 
 export default function ShopPage() {
   const [searchTerm, setSearchTerm] = React.useState<string>("");

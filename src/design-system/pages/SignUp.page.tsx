@@ -1,7 +1,7 @@
+import { TextInput } from "@atoms/TextInput";
+import { HomeTemplate } from "@templates/Home.template";
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { HomeTemplate } from "@templates/Home.template";
-import { TextInput } from "@atoms/TextInput";
 
 export default function SignUpPage() {
   const nav = useNavigate();
@@ -16,12 +16,12 @@ export default function SignUpPage() {
   return (
     <HomeTemplate>
       {/* Purple top strip */}
-      <div className="mb-10 h-16 w-full rounded-b-2xl bg-[#3C1FF4]" />
+      <div className="mb-8 h-32 w-full rounded-b-2xl bg-[#3C1FF4] sm:mb-10 sm:h-40 md:h-48" />
 
       {/* Centered auth card */}
       <section className="mx-auto max-w-md px-6">
         <div className="rounded-2xl border border-gray-200 bg-white shadow-sm">
-          <header className="border-b px-6 py-3 text-sm font-medium text-gray-800">
+          <header className="border-amber-50 text-center px-6 py-3 text-sm font-medium text-gray-800">
             Sign up
           </header>
 
@@ -29,19 +29,27 @@ export default function SignUpPage() {
             <TextInput
               label="User Name Or Email"
               value={form.email}
-              onChange={(e) => setForm((s) => ({ ...s, email: e.target.value }))}
+              onChange={(e) =>
+                setForm((s) => ({ ...s, email: e.target.value }))
+              }
             />
             <TextInput
               label="Password"
               type="password"
               value={form.password}
-              onChange={(e) => setForm((s) => ({ ...s, password: e.target.value }))}
+              onChange={(e) =>
+                setForm((s) => ({ ...s, password: e.target.value }))
+              }
             />
 
             <p className="text-[11px] leading-relaxed text-gray-500">
-              Your personal data will be used to support your experience throughout this
-              website, to manage access to your account, and for other purposes described in
-              our <button type="button" className="underline">privacy policy</button>.
+              Your personal data will be used to support your experience
+              throughout this website, to manage access to your account, and for
+              other purposes described in our{" "}
+              <button type="button" className="underline">
+                privacy policy
+              </button>
+              .
             </p>
 
             <button

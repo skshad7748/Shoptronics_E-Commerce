@@ -88,7 +88,7 @@ export function Header({ onSearch }: HeaderProps) {
                 <IconCart size={20} />
 
                 {count > 0 && (
-                  <span className="absolute -right-1 -top-1 inline-flex h-5 min-w-5 items-center justify-center rounded-full bg-brand-600 px-1 text-xs text-white">
+                  <span className="absolute -right-1 -top-1 inline-flex h-5 min-w-5 items-center justify-center rounded-full bg-brand-600 px-1 text-xs text-black">
                     {count}
                   </span>
                 )}

@@ -15,6 +15,7 @@ export default defineConfig({
       "@pages": path.resolve(__dirname, "./src/design-system/pages"),
       "@utils": path.resolve(__dirname, "./src/utils"),
       "@types": path.resolve(__dirname, "./src/types"),
+      "@data": path.resolve(__dirname, "./src/data"),
     },
   },
 });

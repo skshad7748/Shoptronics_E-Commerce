@@ -1,3 +1,4 @@
+import { PRODUCTS } from "@data/products";
 import { ProductCard } from "@molecules/ProductCard";
 
 type Product = {
@@ -8,55 +9,19 @@ type Product = {
   oldPrice?: number;
   rating?: number;
   reviews?: number;
+  slug?: string;
 };
 
-const PRODUCTS: Product[] = [
-  {
-    id: "p1",
-    image: "/images/products/headphones.png",
-    title: "Smart Digital Watch",
-    price: 29.99,
-    oldPrice: 39.99,
-    rating: 4,
-    reviews: 96,
-  },
-  {
-    id: "p2",
-    image: "/images/products/laptop.png",
-    title: "Smart Digital Watch",
-    price: 29.99,
-    oldPrice: 39.99,
-    rating: 4,
-    reviews: 96,
-  },
-  {
-    id: "p3",
-    image: "/images/products/watch.png",
-    title: "Smart Digital Watch",
-    price: 29.99,
-    oldPrice: 39.99,
-    rating: 4,
-    reviews: 96,
-  },
-  {
-    id: "p4",
-    image: "/images/products/watch.png",
-    title: "Smart Digital Watch",
-    price: 29.99,
-    oldPrice: 39.99,
-    rating: 4,
-    reviews: 96,
-  },
-  {
-    id: "p5",
-    image: "/images/products/watch.png",
-    title: "Smart Digital Watch",
-    price: 29.99,
-    oldPrice: 39.99,
-    rating: 4,
-    reviews: 96,
-  },
-];
+const DEFAULT_PRODUCTS: Product[] = PRODUCTS.slice(0, 5).map((product) => ({
+  id: product.id,
+  image: product.image,
+  title: product.title,
+  price: product.price,
+  oldPrice: product.oldPrice,
+  rating: product.rating,
+  reviews: product.reviews,
+  slug: product.slug,
+}));
 
 export interface TrendingProductsSectionProps {
   title?: string;
@@ -67,7 +32,7 @@ export interface TrendingProductsSectionProps {
 export function TrendingProductsSection({
   title = "Trending",
   subtitle = "Categories",
-  products = PRODUCTS,
+  products = DEFAULT_PRODUCTS,
 }: TrendingProductsSectionProps) {
   return (
     <section className="mx-auto max-w-6xl px-6 py-10">
@@ -91,6 +56,7 @@ export function TrendingProductsSection({
             oldPrice={p.oldPrice}
             rating={p.rating}
             reviews={p.reviews}
+            slug={p.slug}
             onAddToCart={() => console.log("add to cart", p.id)}
             onQuickView={() => console.log("quick view", p.id)}
             onWishlist={() => console.log("wishlist", p.id)}

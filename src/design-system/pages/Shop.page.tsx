@@ -1,3 +1,4 @@
+import { PRODUCTS } from "@data/products";
 import { ProductCard } from "@molecules/ProductCard";
 import { FiltersSidebar } from "@organisms/FiltersSidebar";
 import { PageHeroBar } from "@organisms/PageHeroBar";
@@ -6,28 +7,19 @@ import { ProductsToolbar } from "@organisms/ProductsToolbar";
 import { HomeTemplate } from "@templates/Home.template";
 import React from "react";
 
-type Product = {
-  id: string;
-  image: string;
-  title: string;
-  price: number;
-  oldPrice?: number;
-  rating?: number;
-  reviews?: number;
-};
-
-const PRODUCTS: Product[] = Array.from({ length: 9 }).map((_, i) => ({
-  id: `s${i + 1}`,
-  image: "/images/products/headphones-sm.png",
-  title: "Smart Digital Watch",
-  price: 29.99,
-  oldPrice: 39.99,
-  rating: 4,
-  reviews: 96,
-}));
-
 export default function ShopPage() {
   const [searchTerm, setSearchTerm] = React.useState<string>("");
+
+  const filteredProducts = React.useMemo(() => {
+    const normalized = searchTerm.trim().toLowerCase();
+    if (!normalized) {
+      return PRODUCTS;
+    }
+
+    return PRODUCTS.filter((product) =>
+      product.title.toLowerCase().includes(normalized)
+    );
+  }, [searchTerm]);
 
   return (
     <HomeTemplate onSearch={setSearchTerm}>
@@ -42,19 +34,19 @@ export default function ShopPage() {
           <ProductsToolbar />
 
           <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
-            {PRODUCTS.map((p, idx) => (
+            {filteredProducts.map((product) => (
               <ProductCard
-                key={p.id}
-                image={p.image}
-                title={p.title}
-                price={p.price}
-                oldPrice={p.oldPrice}
-                rating={p.rating}
-                reviews={p.reviews}
-                slug="flexible-wireless-head-phone"
-                onAddToCart={() => console.log("add to cart", p.id)}
-                onQuickView={() => console.log("quick view", p.id)}
-                onWishlist={() => console.log("wishlist", p.id)}
+                key={product.id}
+                image={product.image}
+                title={product.title}
+                price={product.price}
+                oldPrice={product.oldPrice}
+                rating={product.rating}
+                reviews={product.reviews}
+                slug={product.slug}
+                onAddToCart={() => console.log("add to cart", product.id)}
+                onQuickView={() => console.log("quick view", product.id)}
+                onWishlist={() => console.log("wishlist", product.id)}
               />
             ))}
           </div>

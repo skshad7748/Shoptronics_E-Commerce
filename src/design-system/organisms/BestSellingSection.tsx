@@ -1,3 +1,4 @@
+import { PRODUCTS } from "@data/products";
 import { ProductTile } from "@molecules/ProductTile";
 
 type Product = {
@@ -8,37 +9,19 @@ type Product = {
   oldPrice?: number;
   rating?: number;
   reviews?: number;
+  slug?: string;
 };
 
-const PRODUCTS: Product[] = [
-  {
-    id: "b1",
-    image: "/images/products/headphones-large.png",
-    title: "Smart Digital Watch",
-    price: 29.99,
-    oldPrice: 29.99,
-    rating: 4,
-    reviews: 96,
-  },
-  {
-    id: "b2",
-    image: "/images/products/headphones-large.png",
-    title: "Smart Digital Watch",
-    price: 29.99,
-    oldPrice: 29.99,
-    rating: 4,
-    reviews: 96,
-  },
-  {
-    id: "b3",
-    image: "/images/products/headphones-large.png",
-    title: "Smart Digital Watch",
-    price: 29.99,
-    oldPrice: 29.99,
-    rating: 4,
-    reviews: 96,
-  },
-];
+const DEFAULT_PRODUCTS: Product[] = PRODUCTS.slice(0, 3).map((product) => ({
+  id: product.id,
+  image: product.image,
+  title: product.title,
+  price: product.price,
+  oldPrice: product.oldPrice,
+  rating: product.rating,
+  reviews: product.reviews,
+  slug: product.slug,
+}));
 
 export interface BestSellingSectionProps {
   title?: string;
@@ -49,7 +32,7 @@ export interface BestSellingSectionProps {
 export function BestSellingSection({
   title = "Best Selling",
   subtitle = "Nest",
-  products = PRODUCTS,
+  products = DEFAULT_PRODUCTS,
 }: BestSellingSectionProps) {
   return (
     <section className="mx-auto max-w-6xl px-6 py-10">
@@ -73,6 +56,7 @@ export function BestSellingSection({
             oldPrice={p.oldPrice}
             rating={p.rating}
             reviews={p.reviews}
+            slug={p.slug}
             showCta={idx === products.length - 1} // only last tile shows Add to Cart (like mock)
             onAddToCart={() => console.log("add to cart", p.id)}
           />

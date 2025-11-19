@@ -1,19 +1,54 @@
+import { getProductBySlug, getRelatedProducts } from "@data/products";
 import { ProductCard } from "@molecules/ProductCard";
 import { ProductGallery } from "@molecules/ProductGallery";
 import { PageHeroBar } from "@organisms/PageHeroBar";
 import { ProductDetailsSection } from "@organisms/ProductDetailsSection";
 import { HomeTemplate } from "@templates/Home.template";
-
-const IMAGES = [
-  "/images/product-detail/thumb-1.png",
-  "/images/product-detail/thumb-2.png",
-  "/images/product-detail/thumb-3.png",
-  "/images/product-detail/thumb-4.png",
-];
-
-const HERO = "/images/product-detail/hero.png";
+import { Link, useParams } from "react-router-dom";
+import { useCart } from "../../store/cart";
 
 export default function ProductDetailPage() {
+  const { slug = "" } = useParams();
+  const product = slug ? getProductBySlug(slug) : undefined;
+  const { addItem } = useCart();
+
+  if (!product) {
+    return (
+      <HomeTemplate>
+        <PageHeroBar
+          crumbs={[
+            { label: "Home", to: "/" },
+            { label: "Shop", to: "/shop" },
+            { label: "Product Not Found" },
+          ]}
+        />
+
+        <section className="mx-auto max-w-4xl px-6 py-12">
+          <div className="rounded-2xl border border-gray-200 bg-white p-8 text-center shadow-sm">
+            <h1 className="text-2xl font-semibold text-gray-900">
+              Product unavailable
+            </h1>
+            <p className="mt-2 text-sm text-gray-500">
+              We couldn’t find the product you were looking for. It may have been
+              moved or is no longer available.
+            </p>
+            <Link
+              to="/shop"
+              className="mt-6 inline-flex rounded-md bg-[#4F46E5] px-6 py-2 text-sm font-medium text-white hover:bg-[#4338CA]"
+            >
+              Back to shop
+            </Link>
+          </div>
+        </section>
+      </HomeTemplate>
+    );
+  }
+
+  const galleryImages = product.hero
+    ? [product.hero, ...product.gallery]
+    : product.gallery;
+  const relatedProducts = getRelatedProducts(product.slug);
+
   return (
     <HomeTemplate>
       {/* top purple strip with breadcrumb and product name */}
@@ -21,7 +56,7 @@ export default function ProductDetailPage() {
         crumbs={[
           { label: "Home", to: "/" },
           { label: "Shop", to: "/shop" },
-          { label: "Flexible Wireless Head Phone" },
+          { label: product.title },
         ]}
         height="h-20"
       />
@@ -31,18 +66,29 @@ export default function ProductDetailPage() {
         <div className="rounded-2xl border border-gray-200 bg-white p-4 shadow-sm md:p-6">
           <div className="grid grid-cols-1 gap-6 lg:grid-cols-[520px_1fr]">
             {/* Gallery: show main hero first, then thumbs */}
-            <ProductGallery
-              images={[HERO, ...IMAGES]}
-              alt="Flexible Wireless Head Phone"
-            />
+            <ProductGallery images={galleryImages} alt={product.title} />
 
             <ProductDetailsSection
-              title="Flexible Wireless Head Phone"
-              price={29.99}
-              oldPrice={39.99}
-              rating={4}
-              reviews={96}
-              onAddToCart={(qty) => console.log("Add to cart - qty:", qty)}
+              title={product.title}
+              price={product.price}
+              oldPrice={product.oldPrice}
+              rating={product.rating}
+              reviews={product.reviews}
+              brand={product.brand}
+              category={product.category}
+              sku={product.sku}
+              availability={product.availability}
+              onAddToCart={(qty) =>
+                addItem(
+                  {
+                    id: product.id,
+                    title: product.title,
+                    price: product.price,
+                    image: product.image,
+                  },
+                  qty
+                )
+              }
             />
           </div>
         </div>
@@ -55,19 +101,29 @@ export default function ProductDetailPage() {
           <span className="text-gray-900">Related Products</span>
         </h2>
         <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
-          {Array.from({ length: 4 }).map((_, i) => (
+          {relatedProducts.map((related) => (
             <ProductCard
-              key={i}
-              image="/images/product-detail/thumb-1.png"
-              title="Smart Digital Watch"
-              price={29.99}
-              oldPrice={39.99}
-              rating={4}
-              reviews={96}
-              slug="flexible-wireless-head-phone"
-              onAddToCart={() => console.log("add to cart related", i)}
-              onQuickView={() => console.log("quick view related", i)}
-              onWishlist={() => console.log("wishlist related", i)}
+              key={related.id}
+              image={related.image}
+              title={related.title}
+              price={related.price}
+              oldPrice={related.oldPrice}
+              rating={related.rating}
+              reviews={related.reviews}
+              slug={related.slug}
+              onAddToCart={() =>
+                addItem(
+                  {
+                    id: related.id,
+                    title: related.title,
+                    price: related.price,
+                    image: related.image,
+                  },
+                  1
+                )
+              }
+              onQuickView={() => console.log("quick view", related.id)}
+              onWishlist={() => console.log("wishlist", related.id)}
             />
           ))}
         </div>

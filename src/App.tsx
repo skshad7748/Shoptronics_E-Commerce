@@ -4,6 +4,7 @@ import CheckoutPage from "@pages/Checkout.page";
 import HomePage from "@pages/Home.page"; // if default export
 import OrderSuccessPage from "@pages/OrderSuccess.page";
 import ProductDetailPage from "@pages/ProductDetail.page";
+import NotFoundPage from "@pages/NotFound.page";
 import ShopPage from "@pages/Shop.page";
 import SignInPage from "@pages/SignIn.page";
 import SignUpPage from "@pages/SignUp.page";
@@ -21,6 +22,7 @@ const router = createBrowserRouter([
   { path: "/account", element: <AccountPage /> },
   { path: "/signin", element: <SignInPage /> },
   { path: "/signup", element: <SignUpPage /> },
+  { path: "*", element: <NotFoundPage /> },
 ]);
 
 function App() {

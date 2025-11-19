@@ -27,16 +27,17 @@ export function ProductCard({
   rating = 4,
   reviews = 96,
   slug = "",
+  onAddToCart,
   onQuickView,
   onWishlist,
 }: ProductCardProps) {
-  const [hovered, setHovered] = React.useState(false);
   const { addItem } = useCart();
 
   const handleAdd = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.stopPropagation();
     e.preventDefault();
     addItem({ id: slug || title, title, price, image }, 1);
+    onAddToCart?.();
   };
 
   const handleQuick = (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -51,35 +52,35 @@ export function ProductCard({
     onWishlist?.();
   };
 
+  const imageElement = (
+    <img
+      src={image}
+      alt={title}
+      className="max-h-full max-w-full object-contain"
+      loading="lazy"
+    />
+  );
+
   return (
-    <div
+    <article
       className={cn(
-        "group relative overflow-hidden rounded-2xl border border-gray-200 bg-white transition-shadow",
-        hovered ? "shadow-md" : "shadow-sm"
+        "group relative flex h-full flex-col overflow-hidden rounded-2xl border border-gray-200 bg-white transition-shadow",
+        "hover:shadow-lg focus-within:shadow-lg"
       )}
-      onMouseEnter={() => setHovered(true)}
-      onMouseLeave={() => setHovered(false)}
     >
       {/* image area */}
       <div className="relative flex h-56 items-center justify-center bg-white p-6">
-        {/* Only the image is a link when slug exists */}
         {slug ? (
-          <Link to={`/product/${slug}`} className="block">
-            <img
-              src={image}
-              alt={title}
-              className="max-h-full max-w-full object-contain"
-              loading="lazy"
-            />
+          <Link
+            to={`/product/${slug}`}
+            aria-label={`View details for ${title}`}
+            className="flex h-full w-full items-center justify-center"
+          >
+            {imageElement}
           </Link>
         ) : (
-          <div className="block">
-            <img
-              src={image}
-              alt={title}
-              className="max-h-full max-w-full object-contain"
-              loading="lazy"
-            />
+          <div className="flex h-full w-full items-center justify-center">
+            {imageElement}
           </div>
         )}
 
@@ -87,12 +88,12 @@ export function ProductCard({
         <div
           className={cn(
             "pointer-events-none absolute inset-x-0 bottom-3 flex items-center justify-center gap-2 opacity-0 transition-opacity",
-            "group-hover:pointer-events-auto group-hover:opacity-100"
+            "group-hover:pointer-events-auto group-hover:opacity-100 group-focus-within:pointer-events-auto group-focus-within:opacity-100"
           )}
         >
           <button
             aria-label="Quick view"
-            className="rounded-lg bg-white/90 p-2 shadow hover:bg-white"
+            className="rounded-lg bg-white/95 p-2 shadow hover:bg-white"
             onClick={handleQuick}
           >
             <IconEye />
@@ -108,7 +109,7 @@ export function ProductCard({
 
           <button
             aria-label="Wishlist"
-            className="rounded-lg bg-white/90 p-2 shadow hover:bg-white"
+            className="rounded-lg bg-white/95 p-2 shadow hover:bg-white"
             onClick={handleWish}
           >
             <IconHeart />
@@ -120,7 +121,7 @@ export function ProductCard({
       <div className="space-y-1 px-4 pb-4 pt-3">
         <Rating value={rating} reviews={reviews} />
         {slug ? (
-          <Link to={`/product/${slug}`}>
+          <Link to={`/product/${slug}`} className="block">
             <h3 className="truncate text-sm text-gray-800 hover:text-brand-600">
               {title}
             </h3>
@@ -140,6 +141,6 @@ export function ProductCard({
           )}
         </div>
       </div>
-    </div>
+    </article>
   );
 }

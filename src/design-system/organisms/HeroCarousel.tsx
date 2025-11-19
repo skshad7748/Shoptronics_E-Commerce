@@ -102,7 +102,7 @@ export function HeroCarousel({
 
   return (
     <section
-      className="relative mx-auto max-w-6xl px-6"
+      className="relative w-full"
       onMouseEnter={() => (hoveringRef.current = true)}
       onMouseLeave={() => (hoveringRef.current = false)}
     >

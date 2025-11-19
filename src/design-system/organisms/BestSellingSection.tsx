@@ -1,4 +1,7 @@
+import { PRODUCTS } from "@data/products";
 import { ProductTile } from "@molecules/ProductTile";
+import React from "react";
+import { useCart } from "../../store/cart";
 
 type Product = {
   id: string;
@@ -8,37 +11,19 @@ type Product = {
   oldPrice?: number;
   rating?: number;
   reviews?: number;
+  slug?: string;
 };
 
-const PRODUCTS: Product[] = [
-  {
-    id: "b1",
-    image: "/images/products/headphones-large.png",
-    title: "Smart Digital Watch",
-    price: 29.99,
-    oldPrice: 29.99,
-    rating: 4,
-    reviews: 96,
-  },
-  {
-    id: "b2",
-    image: "/images/products/headphones-large.png",
-    title: "Smart Digital Watch",
-    price: 29.99,
-    oldPrice: 29.99,
-    rating: 4,
-    reviews: 96,
-  },
-  {
-    id: "b3",
-    image: "/images/products/headphones-large.png",
-    title: "Smart Digital Watch",
-    price: 29.99,
-    oldPrice: 29.99,
-    rating: 4,
-    reviews: 96,
-  },
-];
+const DEFAULT_PRODUCTS: Product[] = PRODUCTS.slice(0, 3).map((product) => ({
+  id: product.id,
+  image: product.image,
+  title: product.title,
+  price: product.price,
+  oldPrice: product.oldPrice,
+  rating: product.rating,
+  reviews: product.reviews,
+  slug: product.slug,
+}));
 
 export interface BestSellingSectionProps {
   title?: string;
@@ -49,21 +34,29 @@ export interface BestSellingSectionProps {
 export function BestSellingSection({
   title = "Best Selling",
   subtitle = "Nest",
-  products = PRODUCTS,
+  products = DEFAULT_PRODUCTS,
 }: BestSellingSectionProps) {
+  const headingId = React.useId();
+  const { addItem } = useCart();
+
+  const handleAdd = (product: Product) =>
+    addItem(
+      { id: product.id, title: product.title, price: product.price, image: product.image },
+      1
+    );
+
   return (
-    <section className="mx-auto max-w-6xl px-6 py-10">
-      <div className="mb-6">
-        <p className="text-xs font-medium uppercase tracking-wide text-gray-400">
+    <section className="w-full space-y-6" aria-labelledby={headingId}>
+      <div className="text-center sm:text-left">
+        <p className="text-xs font-semibold uppercase tracking-[0.2em] text-brand-600">
           {subtitle}
         </p>
-        <h2 className="mt-1 text-2xl font-semibold">
-          <span className="text-gray-900">{title}</span>{" "}
-          <span className="text-gray-500">Products</span>
+        <h2 id={headingId} className="mt-2 text-2xl font-semibold text-gray-900">
+          {title} <span className="text-gray-500">Products</span>
         </h2>
       </div>
 
-      <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+      <div className="grid grid-cols-1 gap-6 md:grid-cols-2 xl:grid-cols-3">
         {products.map((p, idx) => (
           <ProductTile
             key={p.id}
@@ -73,8 +66,9 @@ export function BestSellingSection({
             oldPrice={p.oldPrice}
             rating={p.rating}
             reviews={p.reviews}
-            showCta={idx === products.length - 1} // only last tile shows Add to Cart (like mock)
-            onAddToCart={() => console.log("add to cart", p.id)}
+            slug={p.slug}
+            showCta={idx === products.length - 1}
+            onAddToCart={() => handleAdd(p)}
           />
         ))}
       </div>

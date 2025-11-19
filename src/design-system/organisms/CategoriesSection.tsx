@@ -5,33 +5,41 @@ export interface CategoryItem {
   id: string;
   label: string;
   iconSrc: string;
+  iconAlt?: string;
 }
+
+const icon = (fileName: string) => `/images/categories/${fileName}`;
 
 const DEFAULT_ITEMS: CategoryItem[] = [
   {
     id: "mobile",
     label: "Mobile",
-    iconSrc: "/public/images/categories/mobile.png",
+    iconSrc: icon("mobile.png"),
+    iconAlt: "Smartphone category",
   },
   {
     id: "computer",
     label: "Computer",
-    iconSrc: "/public/images/categories/computer.png",
+    iconSrc: icon("computer.png"),
+    iconAlt: "Computer category",
   },
   {
     id: "headphone",
     label: "Head Phone",
-    iconSrc: "/public/images/categories/headphone.png",
+    iconSrc: icon("headphone.png"),
+    iconAlt: "Headphones category",
   },
   {
     id: "speaker",
     label: "Speaker",
-    iconSrc: "/public/images/categories/speaker.png",
+    iconSrc: icon("speaker.png"),
+    iconAlt: "Speaker category",
   },
   {
     id: "camera",
     label: "Camera",
-    iconSrc: "/public/images/categories/camera.png",
+    iconSrc: icon("camera.png"),
+    iconAlt: "Camera category",
   },
 ];
 
@@ -51,6 +59,9 @@ export function CategoriesSection({
   onSelect,
 }: CategoriesSectionProps) {
   const [selected, setSelected] = React.useState<string>(defaultSelectedId);
+  const sectionId = React.useId();
+  const titleId = `${sectionId}-title`;
+  const subtitleId = `${sectionId}-subtitle`;
 
   const handleSelect = (id: string) => {
     setSelected(id);
@@ -58,20 +69,30 @@ export function CategoriesSection({
   };
 
   return (
-    <section className="mx-auto max-w-6xl px-6 py-10">
-      <div className="mb-6">
-        <p className="text-xs font-medium uppercase tracking-wide text-gray-400">
+    <section
+      className="w-full rounded-3xl border border-gray-100 bg-white/80 px-4 py-8 shadow-sm backdrop-blur-sm sm:px-6"
+      aria-labelledby={titleId}
+      aria-describedby={subtitleId}
+    >
+      <div className="flex flex-col gap-1 text-center sm:text-left">
+        <p
+          id={subtitleId}
+          className="text-xs font-medium uppercase tracking-wide text-gray-400"
+        >
           {subtitle}
         </p>
-        <h2 className="mt-1 text-xl font-semibold text-gray-900">{title}</h2>
+        <h2 id={titleId} className="text-2xl font-semibold text-gray-900">
+          {title}
+        </h2>
       </div>
 
-      <div className="flex flex-wrap gap-4">
+      <div className="mt-6 grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 xl:grid-cols-5">
         {items.map((it) => (
           <CategoryCard
             key={it.id}
             label={it.label}
             iconSrc={it.iconSrc}
+            iconAlt={it.iconAlt}
             selected={selected === it.id}
             onClick={() => handleSelect(it.id)}
           />

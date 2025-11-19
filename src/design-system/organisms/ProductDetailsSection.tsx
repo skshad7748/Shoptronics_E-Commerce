@@ -9,6 +9,7 @@ export interface ProductDetailsSectionProps {
   brand?: string;
   sku?: string;
   availability?: string;
+  category?: string;
   price: number;
   oldPrice?: number;
   rating?: number;
@@ -21,6 +22,7 @@ export function ProductDetailsSection({
   brand = "Roco",
   sku = "MP3-12345",
   availability = "In Stock",
+  category = "Head Phone",
   price,
   oldPrice,
   rating = 4,
@@ -34,7 +36,7 @@ export function ProductDetailsSection({
       {/* Title + small meta line */}
       <div className="flex items-center justify-between">
         <Badge className="bg-transparent px-0 text-xs text-gray-500">
-          Category: Head Phone
+          Category: {category}
         </Badge>
         <div className="text-xs text-gray-400">SKU: {sku}</div>
       </div>

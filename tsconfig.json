@@ -28,7 +28,8 @@
       "@templates/*": ["src/design-system/templates/*"],
       "@pages/*": ["src/design-system/pages/*"],
       "@utils/*": ["src/utils/*"],
-      "@types/*": ["src/types/*"]
+      "@types/*": ["src/types/*"],
+      "@data/*": ["src/data/*"]
     }
   },
   "include": ["src"]

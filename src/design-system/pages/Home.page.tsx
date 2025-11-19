@@ -6,20 +6,14 @@ import { HeroCarousel } from "@organisms/HeroCarousel";
 import { TrendingProductsSection } from "@organisms/TrendingProductsSection";
 import { HomeTemplate } from "@templates/Home.template";
 import React from "react";
+import { useNavigate } from "react-router-dom";
 
 export default function HomePage() {
   const [searchTerm, setSearchTerm] = React.useState<string>("");
+  const navigate = useNavigate();
 
   return (
     <HomeTemplate onSearch={setSearchTerm}>
-      {/* <Hero
-        title="Intelectial Digital Computer"
-        subtitle="Hot Deal In This Week"
-        price="$97"
-        imageSrc="../../../public/images/hero/banner-mockup 1.png"
-        onBuy={() => console.log("Buy Now")}
-      /> */}
-
       <HeroCarousel
         slides={[
           {
@@ -40,7 +34,7 @@ export default function HomePage() {
         autoPlayMs={6000}
       />
 
-      <CategoriesSection onSelect={(id) => console.log("selected:", id)} />
+      <CategoriesSection />
 
       <TrendingProductsSection />
 
@@ -49,7 +43,7 @@ export default function HomePage() {
         title={"Enhance Your Music\nExperience"}
         ctaText="Check it Out!"
         imageSrc="/images/promo/headphones.png"
-        onCtaClick={() => console.log("promo CTA")}
+        onCtaClick={() => navigate("/shop")}
       />
 
       <BestSellingSection />

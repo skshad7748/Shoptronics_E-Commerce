@@ -7,11 +7,15 @@ export interface HomeTemplateProps {
   onSearch?: (q: string) => void;
 }
 
+const MAIN_WRAPPER = "mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8";
+
 export function HomeTemplate({ children, onSearch }: HomeTemplateProps) {
   return (
-    <div className="min-h-full">
+    <div className="flex min-h-screen flex-col bg-slate-50 text-gray-900">
       <Header onSearch={onSearch} />
-      <main className="mx-auto max-w-6xl px-6 py-10">{children}</main>
+      <main role="main" className="flex-1 py-8 sm:py-10 lg:py-12">
+        <div className={`${MAIN_WRAPPER} flex flex-col gap-10`}>{children}</div>
+      </main>
       <SiteFooter />
     </div>
   );
